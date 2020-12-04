@@ -1,0 +1,90 @@
+<div class="container">
+
+    <div class="jumbotron">
+        <h1 class="text-center"><span class="fa fa-fire"></span> Hot Restaurant</h1>
+        <hr>
+        <h2 class="text-center">Current Reservations and Waiting List</h2>
+        <br>
+
+        <div class="text-center">
+            <a href="/reserve"><button class="btn btn-lg btn-danger"><span class="fa fa-credit-card"></span> Make
+                    Reservation</button></a>
+            <a href="/"><button class="btn btn-lg btn-default"><span class="fa fa-home"></span></button></a>
+        </div>
+        <br>
+        <h4 id="views" class="text-center"></h4>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+
+            <!-- Current Tables in Use -->
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h4>Current Reservations</h4>
+                </div>
+                <div class="card-body">
+                    <ul id="tableList" class="list-group">
+                        {{#each table}}
+                        <li id="table" class="list-group-item mt-4">
+                            <h2>Table {{formatIndex @index}}</h2>
+                            <hr>
+                            <h3 id="id">ID: {{customerID}}</h3>
+                            <h3 id="name">Name: {{customerName}}</h3>
+                            <h3 id="email">Email: {{customerEmail}}</h3>
+                            <h3 id="phone">Phone: {{customerNumber}}</h3>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Waiting List Card -->
+            <div class="card mt-4">
+                <div class="card-header bg-warning text-white">
+                    <h4>Waiting List</h4>
+                </div>
+                <div class="card-body">
+                    <ul id="waitList" class="list-group">
+                        {{#each wait}}
+                        <li class="list-group-item mt-4">
+                            <h2>Spot {{formatIndex @index}}</h2>
+                            <hr>
+                            <h3>ID: {{customerID}}</h3>
+                            <h3>Name: {{customerName}}</h3>
+                            <h3>Email: {{customerEmail}}</h3>
+                            <h3>Phone: {{customerNumber}}</h3>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="footer mt-4">
+        <div class="container">
+            <p>Control Panel</p>
+            <p><a href="#" id="clear">Clear Table</a> | <a href="/api/tables">API Table Link</a> | <a
+                    href="/api/waitlist">API
+                    Wait List</a>
+        </div>
+    </footer>
+
+</div>
+
+
+
+
+<!-- BELOW CODE IS CRITICAL. IT HANDLES HOW FORM DATA IS LOADED FROM OUR SERVER -->
+<script type="text/javascript">
+    $("#clear").on("click", function (event) {
+        event.preventDefault();
+        $.ajax({ url: "api/clear", method: "POST" });
+
+        $("#tableList").empty();
+        $("#waitList").empty();
+        alert("Contents Cleared!");
+    });
+</script>
